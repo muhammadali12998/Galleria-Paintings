@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galleria - Premium Art Collection</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        
+        header {
+            background: #fff;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+
+        .container {
+            width: 80%;
+            margin: auto;
+        }
+
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links li {
+            padding: 0 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('art-bg.jpg');
+            background-size: cover;
+            height: 50vh;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background-image: url(Images/1st\ img.webp);
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: black;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: black;
+        }
+
+        
+        .about {
+            padding: 60px 0;
+            background: #f4f4f4;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        
+        .contact {
+            padding: 60px 0;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 30px;
+            background: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #555;
+        }
+
+        
+        footer {
+            background: #333;
+            color: #fff;
+            padding: 40px 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .footer-section p {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ddd;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #555;
+        }
+
+        .gallery {
+            padding: 80px 0;
+            background: #f9f9f9;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            transition: bottom 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            bottom: 0;
+        }
+
+        .gallery-overlay a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        
+        @media screen and (max-width: 768px) {
+            .hamburger {
+                display: block;
+                z-index: 101;
+            }
+
+            .nav-links {
+                position: fixed;
+                right: -100%;
+                top: 0;
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                width: 70%;
+                text-align: center;
+                padding-top: 80px;
+                transition: 0.3s;
+                box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links li {
+                padding: 20px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .nav-links {
+                width: 100%;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+        }
+    </style>
+
+<link rel="stylesheet" href="responsiveFooter.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Galleria</div>
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#about">About Us</a></li>
+                    <li><a href="paintings.html#paintings">Paintings</a></li>
+                    <li><a href="index.html#gallery">Gallery</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Welcome to Galleria</h1>
+                <p>Discover the finest collection of premium artworks</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div>
+                    <h2>About Us</h2>
+                    <p>Galleria is a globally recognized art gallery specializing in premium paintings. With years of
+                        experience in the art industry, we have established ourselves as a trusted name in delivering
+                        exceptional artworks to art enthusiasts worldwide.</p>
+                </div>
+                <div>
+                    <img src="Images/about 1.jpg" alt="About Galleria" style="width: 100%; border-radius: 20px;">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <h2>Gallery</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="Images/abstract oil painting.jpg" alt="Abstract Art">
+                    <div class="gallery-overlay">
+                        <a href="abstractGallery.html">
+                            <h3>Abstract Art</h3>
+                        </a>
+                        <p>Oil on Canvas</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="Images/landscape acrylic painting.jpg" alt="Landscape">
+                    <div class="gallery-overlay">
+                        <a href="landscape.html">
+                            <h3>Landscape</h3>
+                        </a>
+                        <p>Acrylic on Canvas</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="Images/portrait gallery.jpg" alt="Portrait">
+                    <div class="gallery-overlay">
+                        <a href="Portrait.html">
+                            <h3>Portrait</h3>
+                        </a>
+                        <p>Watercolor</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="Images/modern art.webp" alt="Modern Art">
+                    <div class="gallery-overlay">
+                        <a href="Modern.html">
+                            <h3>Modern Art</h3>
+                        </a>
+                        <p>Mixed Media</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Your Email">
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="5" placeholder="Your Message"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+            <div class="map-container" style="margin-top: 40px;">
+                <h3 style="margin-bottom: 20px;">Our Location</h3>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3620.0371401704997!2d67.03183007450542!3d24.83266064889717!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33d9b3042fc49%3A0x7e394f77a4918a76!2sAptech%20Computer%20Education%20Clifton%20Center!5e0!3m2!1sen!2s!4v1708425086992!5m2!1sen!2s"
+                    width="100%" height="450" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Galleria</h3>
+                    <p>Your Trusted Partner For Premium Art Collection</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>Email: info@galleria.com</p>
+                    <p>Phone: +92 300 1234567</p>
+                    <p>Address: Art Street, Karachi, Pakistan</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="paintings.html">Paintings</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Galleria. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            
+            let name = document.querySelector('input[type="text"]').value;
+            let email = document.querySelector('input[type="email"]').value;
+            let message = document.querySelector('textarea').value;
+
+            
+            if (name.trim() === '') {
+                alert('Enter Your Name');
+                return;
+            }
+
+            if (email.trim() === '') {
+                alert('Enter Your Email');
+                return;
+            }
+
+            
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert('Enter Your Correct Email');
+                return;
+            }
+
+            if (message.trim() === '') {
+                alert('Type Any Message Here');
+                return;
+            }
+
+            
+            alert('Your Message Sent. We Come Back To You Shortly.');
+
+            
+            this.reset();
+        });
+
+
+
+
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        
+        document.querySelectorAll('.nav-links li').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

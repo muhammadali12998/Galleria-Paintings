@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galleria - Paintings</title>
+    <style>
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #fff;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+                    
+    .hamburger {
+        display: none;
+        cursor: pointer;
+    }
+
+    .hamburger div {
+        width: 25px;
+        height: 3px;
+        background-color: #333;
+        margin: 5px;
+        transition: all 0.3s ease;
+    }
+
+        .nav-links li {
+            padding: 0 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .filters {
+            padding: 20px 0;
+            background: #f4f4f4;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .filter-select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+
+        .paintings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 40px 0;
+        }
+
+        .painting-card {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .painting-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .painting-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .painting-info {
+            padding: 20px;
+        }
+
+        .painting-info h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .painting-info p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 10px;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            padding: 40px 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .footer-section p {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ddd;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #555;
+        }
+                    
+    @media screen and (max-width: 768px) {
+        .hamburger {
+            display: block;
+            z-index: 101;
+        }
+
+        .nav-links {
+            position: fixed;
+            right: -100%;
+            top: 0;
+            height: 100vh;
+            background: white;
+            flex-direction: column;
+            width: 70%;
+            text-align: center;
+            padding-top: 80px;
+            transition: 0.3s;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-links.active {
+            right: 0;
+        }
+
+        .nav-links li {
+            padding: 20px;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .nav-links {
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 20px;
+        }
+    }
+
+
+
+    @media screen and (max-width: 768px) {
+    .filter-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box, .filter-select {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+    </style>
+    <link rel="stylesheet" href="responsiveFooter.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Galleria</div>
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#about">About Us</a></li>
+                    <li><a href="paintings.html#paintings">Paintings</a></li>
+                    <li><a href="index.html#gallery">Gallery</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="filters">
+        <div class="container">
+            <div class="filter-container">
+                <input type="text" class="search-box" placeholder="Search paintings...">
+                <select class="filter-select">
+                    <option value="">Painting Type</option>
+                    <option value="abstract">Abstract</option>
+                    <option value="landscape">Landscape</option>
+                    <option value="flower">Flower</option>
+                    <option value="nature">Nature</option>
+                    <option value="figurative">Figurative</option>
+                    <option value="religious">Religious</option>
+                </select>
+                <select class="filter-select">
+                    <option value="">Surface Type</option>
+                    <option value="acrylic">Acrylic</option>
+                    <option value="canvas">Canvas</option>
+                    <option value="paper">Paper</option>
+                    <option value="ohp">OHP Sheet</option>
+                    <option value="fabric">Fabric</option>
+                </select>
+                <select class="filter-select">
+                    <option value="">Color Type</option>
+                    <option value="acrylic">Acrylic Color</option>
+                    <option value="ballpoint">Ball Point Pen</option>
+                    <option value="charcoal">Charcoal</option>
+                    <option value="oil">Oil Color</option>
+                    <option value="water">Water Color</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <section class="paintings" id="paintings">
+        <div class="container">
+            <div class="paintings-grid">
+                <div class="painting-card">
+                    <img src="Images/Abstract 1.jpg" alt="Abstract Art" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Abstract Harmony</h3>
+                        <p>Type: Abstract</p>
+                        <p>Surface: Canvas</p>
+                        <p>Medium: Acrylic</p>
+                        <p class="price">Rs. 25,000</p>
+                    </div>
+                </div>
+                
+                <div class="painting-card">
+                    <img src="Images/landscape 5.jpg" alt="Landscape" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Mountain Sunset</h3>
+                        <p>Type: Landscape</p>
+                        <p>Surface: Acrylic</p>
+                        <p>Medium: Acrylic Color</p>
+                        <p class="price">Rs. 35,000</p>
+                    </div>
+                </div>
+                <div class="painting-card">
+                    <img src="Images/flower 3.webp" alt="Floral" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Spring Bouquet</h3>
+                        <p>Type: Flower</p>
+                        <p>Surface: Paper</p>
+                        <p>Medium: Watercolor</p>
+                        <p class="price">Rs. 15,000</p>
+                    </div>
+                </div>
+                <div class="painting-card">
+                    <img src="Images/religious.jpg" alt="Religious Art" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Divine Grace</h3>
+                        <p>Type: Religious</p>
+                        <p>Surface: Canvas</p>
+                        <p>Medium: Water Color</p>
+                        <p class="price">Rs. 45,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/nature ohp charcoal.jpg" alt="Nature" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Lake Nature</h3>
+                        <p>Type: Nature</p>
+                        <p>Surface: OHP Sheet</p>
+                        <p>Medium: Charcoal </p>
+                        <p class="price">Rs. 20,000</p>
+                    </div>
+                    </div>
+                <div class="painting-card">
+                    <img src="Images/nature 1.jpg" alt="Nature" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Forest Dreams</h3>
+                        <p>Type: Nature</p>
+                        <p>Surface: Canvas</p>
+                        <p>Medium: Acrylic</p>
+                        <p class="price">Rs. 28,000</p>
+                    </div>
+                    </div>
+
+                    
+                <div class="painting-card">
+                    <img src="Images/figurative acrylic oil.jpg" alt="Figurative" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Traditional painting</h3>
+                        <p>Type: Figurative</p>
+                        <p>Surface: Acrylic</p>
+                        <p>Medium: Oil Color</p>
+                        <p class="price">Rs. 18,000</p>
+                    </div>
+                </div>
+
+                    <div class="painting-card">
+                        <img src="Images/landscape ohp water.jpg" alt="Landscape" class="painting-img">
+                        <div class="painting-info">
+                            <h3>Wagheshwar Temple</h3>
+                            <p>Type: Landscape</p>
+                            <p>Surface: OHP Sheet</p>
+                            <p>Medium: Water Color</p>
+                            <p class="price">Rs. 45,000</p>
+                        </div>
+                    </div>
+
+                    <div class="painting-card">
+                        <img src="Images/flower canvas oil.jpg" alt="Floral" class="painting-img">
+                        <div class="painting-info">
+                            <h3>Orchid Flower</h3>
+                            <p>Type: Flower</p>
+                            <p>Surface: Canvas</p>
+                            <p>Medium: oil color</p>
+                            <p class="price">Rs. 32,000</p>
+                        </div>
+                    </div>
+                    <div class="painting-card">
+                        <img src="Images/nature fabric acrylic.jpg" alt="Nature" class="painting-img">
+                        <div class="painting-info">
+                            <h3>Tanu's Flower</h3>
+                            <p>Type: Nature</p>
+                            <p>Surface: Fabric</p>
+                            <p>Medium: Acrylic</p>
+                            <p class="price">Rs. 30,000</p>
+                        </div>
+                        </div>
+                
+
+                <div class="painting-card">
+                    <img src="Images/figurative dancing.webp" alt="Figurative" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Dancing Silhouette</h3>
+                        <p>Type: Figurative</p>
+                        <p>Surface: Paper</p>
+                        <p>Medium: Water Color</p>
+                        <p class="price">Rs. 18,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/abstract urban.webp" alt="Abstract" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Urban Rhythm</h3>
+                        <p>Type: Abstract</p>
+                        <p>Surface: OHP Sheet</p>
+                        <p>Medium: Watercolor</p>
+                        <p class="price">Rs. 22,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/nature acrylic ballpoint.jpg" alt="Nature" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Saatchi Art</h3>
+                        <p>Type: Nature</p>
+                        <p>Surface: Acrylic </p>
+                        <p>Medium: ballpoint pen</p>
+                        <p class="price">Rs. 28,000</p>
+                    </div>
+                    </div>
+                    <div class="painting-card">
+                        <img src="Images/religious ohp ballpoint.webp" alt="Religious" class="painting-img">
+                        <div class="painting-info">
+                            <h3></h3>
+                            <p>Type: Religious</p>
+                            <p>Surface: OHP sheet</p>
+                            <p>Medium: ballpoint pen</p>
+                            <p class="price">Rs. 45,000</p>
+                        </div>
+                    </div>
+
+                <div class="painting-card">
+                    <img src="Images/landscape desert.avif" alt="Landscape" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Desert Mirage</h3>
+                        <p>Type: Landscape</p>
+                        <p>Surface: Canvas</p>
+                        <p>Medium: Oil</p>
+                        <p class="price">Rs. 38,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/flower lotus garden.jpg" alt="Floral" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Lotus Garden</h3>
+                        <p>Type: Flower</p>
+                        <p>Surface: fabric</p>
+                        <p>Medium: Acrylic</p>
+                        <p class="price">Rs. 42,000</p>
+                    </div>
+                </div>
+                
+                <div class="painting-card">
+                    <img src="Images/abstract fabric watercolor.avif" alt="Abstract" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Flowing Fabric</h3>
+                        <p>Type: Abstract</p>
+                        <p>Surface: Fabric</p>
+                        <p>Medium: Watercolor</p>
+                        <p class="price">Rs. 22,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/landscape OHP charcoal.webp" alt="Landscape" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Tall Buret</h3>
+                        <p>Type: Landscape</p>
+                        <p>Surface: OHP Sheet</p>
+                        <p>Medium: Charcoal</p>
+                        <p class="price">Rs. 25,000</p>
+                    </div>
+                </div>
+                <div class="painting-card">
+                    <img src="Images/nature canvas charcoal.jpg" alt="Nature" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Summer's Dreams</h3>
+                        <p>Type: Nature</p>
+                        <p>Surface: Canvas  </p>
+                        <p>Medium: Charcoal</p>
+                        <p class="price">Rs. 28,000</p>
+                    </div>
+                    </div>
+
+                <div class="painting-card">
+                    <img src="Images/religious 2.jpg" alt="Religious" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Sacred Journey</h3>
+                        <p>Type: Religious</p>
+                        <p>Surface: Paper</p>
+                        <p>Medium: Charcoal</p>
+                        <p class="price">Rs. 55,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/landscape fabric acrylic.png" alt="Landscape" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Serene Art</h3>
+                        <p>Type: Landscape</p>
+                        <p>Surface:Fabric</p>
+                        <p>Medium: Acrylic Color</p>
+                        <p class="price">Rs. 30,000</p>
+                    </div>
+                </div>
+                
+                <div class="painting-card">
+                    <img src="Images/flower acrylic watercolor.webp" alt="Floral" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Bird Flower</h3>
+                        <p>Type: Flower</p>
+                        <p>Surface: Acrylic</p>
+                        <p>Medium: Watercolor</p>
+                        <p class="price">Rs. 22,000</p>
+                    </div>
+                </div>
+
+                
+                <div class="painting-card">
+                    <img src="Images/abstract on fabric oil.jpg" alt="Abstract" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Silk Dye</h3>
+                        <p>Type: Abstract</p>
+                        <p>Surface: Fabric</p>
+                        <p>Medium: Oil color</p>
+                        <p class="price">Rs. 48,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/nature ocean wave.jpg" alt="Nature" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Ocean Waves</h3>
+                        <p>Type: Nature</p>
+                        <p>Surface: Paper</p>
+                        <p>Medium: Watercolor</p>
+                        <p class="price">Rs. 26,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/figurative urban.jpg" alt="Figurative" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Urban Life</h3>
+                        <p>Type: Figurative</p>
+                        <p>Surface: Canvas</p>
+                        <p>Medium: Acrylic</p>
+                        <p class="price">Rs. 42,000</p>
+                    </div>
+                </div>
+                <div class="painting-card">
+                    <img src="Images/religious acrylic oil.jpg" alt="Religious" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Beautiful Journey</h3>
+                        <p>Type: Religious</p>
+                        <p>Surface: Acrylic </p>
+                        <p>Medium: Oil color </p>
+                        <p class="price">Rs. 50,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/Abstract 2.webp" alt="Abstract" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Color Explosion</h3>
+                        <p>Type: Abstract</p>
+                        <p>Surface: Acrylic</p>
+                        <p>Medium: Acrylic Color</p>
+                        <p class="price">Rs. 48,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/lanscape village.jpg" alt="Landscape" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Village Scene</h3>
+                        <p>Type: Landscape</p>
+                        <p>Surface: Paper</p>
+                        <p>Medium: ballpoint</p>
+                        <p class="price">Rs. 20,000</p>
+                    </div>
+                </div>
+                <div class="painting-card">
+                    <img src="Images/figurative fabric charcoal.jpg" alt="Figurative" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Birds In Flight</h3>
+                        <p>Type: Figurative</p>
+                        <p>Surface: Fabric</p>
+                        <p>Medium: Charcoal</p>
+                        <p class="price">Rs. 52,000</p>
+                    </div>
+                </div>
+                <div class="painting-card">
+                    <img src="Images/abstract on oph sheet ballpoint.webp" alt="Abstract" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Dreams Pen Art</h3>
+                        <p>Type: Abstract</p>
+                        <p>Surface: OHP Sheet</p>
+                        <p>Medium: ballpoint Color</p>
+                        <p class="price">Rs. 25,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/nature autumn tree.jpg" alt="Nature" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Autumn Trees</h3>
+                        <p>Type: Nature</p>
+                        <p>Surface: Canvas</p>
+                        <p>Medium: Oil</p>
+                        <p class="price">Rs. 36,000</p>
+                    </div>
+                </div>
+
+                
+                <div class="painting-card">
+                    <img src="Images/figurative ohp acrylic.webp" alt="Figurative" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Artoreal</h3>
+                        <p>Type: Figurative</p>
+                        <p>Surface: OHP Sheet</p>
+                        <p>Medium: Acrylic Color</p>
+                        <p class="price">Rs. 18,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/flower paper oil.jpg" alt="Floral" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Colorful flower</h3>
+                        <p>Type: Flower</p>
+                        <p>Surface: paper</p>
+                        <p>Medium: Oil Color</p>
+                        <p class="price">Rs. 40,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/figurative fabric ballpoint.jpg" alt="Figurative" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Hero Art</h3>
+                        <p>Type: Figurative</p>
+                        <p>Surface: fabric</p>
+                        <p>Medium: ballpoint Pen</p>
+                        <p class="price">Rs. 30,000</p>
+                    </div>
+                </div>
+                <div class="painting-card">
+                    <img src="Images/landscape fabric ballpoint.webp" alt="Landscape" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Space Art </h3>
+                        <p>Type: Landscape</p>
+                        <p>Surface: fabric</p>
+                        <p>Medium: ballpoint Color</p>
+                        <p class="price">Rs. 35,000</p>
+                    </div>
+                </div>
+
+                
+                <div class="painting-card">
+                    <img src="Images/abstract paper charcoal.webp" alt="Abstract" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Sketch Art</h3>
+                        <p>Type: Abstract</p>
+                        <p>Surface: Paper</p>
+                        <p>Medium: Charcoal</p>
+                        <p class="price">Rs. 25,000</p>
+                    </div>
+                </div>
+
+                
+                <div class="painting-card">
+                    <img src="Images/figurative ohp oil.jpg" alt="Figurative" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Susan Harrison</h3>
+                        <p>Type: Figurative</p>
+                        <p>Surface: OHP Sheet</p>
+                        <p>Medium: Oil Color</p>
+                        <p class="price">Rs. 25,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/flower acrylic wooden charcoal.webp" alt="Floral" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Wooden Black Rose</h3>
+                        <p>Type: Flower</p>
+                        <p>Surface: Acrylic </p>
+                        <p>Medium: Charcoal</p>
+                        <p class="price">Rs. 22,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/religious 1.jpg" alt="Religious" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Temple Art</h3>
+                        <p>Type: Religious</p>
+                        <p>Surface: Fabric</p>
+                        <p>Medium: Acrylic Color</p>
+                        <p class="price">Rs. 29,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/street music.jpeg" alt="Figurative" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Street Musicians</h3>
+                        <p>Type: Figurative</p>
+                        <p>Surface: Canvas</p>
+                        <p>Medium: Oil</p>
+                        <p class="price">Rs. 52,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/abstract geometric.webp" alt="Abstract" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Geometric Dreams</h3>
+                        <p>Type: Abstract</p>
+                        <p>Surface: Canvas</p>
+                        <p>Medium: ballpoint pen</p>
+                        <p class="price">Rs. 33,000</p>
+                    </div>
+                </div>
+
+                <div class="painting-card">
+                    <img src="Images/flower ohp ballpoint.jpg" alt="Floral" class="painting-img">
+                    <div class="painting-info">
+                        <h3>Stained Glass</h3>
+                        <p>Type: Flower</p>
+                        <p>Surface: OHP Sheet</p>
+                        <p>Medium: ballpoint pen</p>
+                        <p class="price">Rs. 30,000</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+                
+    </section>
+       
+       <div id="cart-sidebar" style="position: fixed; top: 0; right: -300px; width: 300px; height: 100%; background: white; box-shadow: -2px 0 5px rgba(0,0,0,0.1); transition: 0.3s; z-index: 1000;">
+        <div style="padding: 20px;">
+            <h2 style="margin-bottom: 20px;">Shopping Cart</h2>
+            <div id="cart-items">
+                
+            </div>
+            <div style="position: absolute; bottom: 20px; width: calc(100% - 40px);">
+                <div style="margin-bottom: 10px;">
+                    <strong>Total: Rs. <span id="cart-total">0</span></strong>
+                </div>
+                <button onclick="checkout()" style="width: 100%; padding: 10px; background: #333; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    Checkout
+                </button>
+            </div>
+        </div>
+        <button onclick="toggleCart()" style="position: absolute; left: -60px; top: 4.5%; transform: translateY(-50%); padding: 10px; background: #333; color: white; border: none; border-radius: 4px 0 0 4px; cursor: pointer;">
+            Cart
+        </button>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Galleria</h3>
+                    <p>Your Trusted Partner For Premium Art Collection</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>Email: info@galleria.com</p>
+                    <p>Phone: +92 300 1234567</p>
+                    <p>Address: Art Street, Karachi, Pakistan</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html#home">Home</a></li>
+                        <li><a href="index.html#about">About Us</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                        <li><a href="index.html#gallery">Gallery</a></li>
+                        <li><a href="paintings.html">Paintings</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Galleria. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+<script>
+    
+
+    
+    function handleSearchAndFilter() {
+        const searchBox = document.querySelector('.search-box');
+        const filterSelects = document.querySelectorAll('.filter-select');
+        const paintingCards = document.querySelectorAll('.painting-card');
+
+        
+        searchBox.addEventListener('input', filterPaintings);
+        
+    
+        filterSelects.forEach(select => {
+            select.addEventListener('change', filterPaintings);
+        });
+
+        function filterPaintings() {
+            
+            const searchQuery = searchBox.value.toLowerCase();
+            
+            
+            const typeFilter = filterSelects[0].value.toLowerCase();
+            const surfaceFilter = filterSelects[1].value.toLowerCase();
+            const colorFilter = filterSelects[2].value.toLowerCase();
+
+            
+            paintingCards.forEach(card => {
+                const info = card.querySelector('.painting-info');
+                const title = info.querySelector('h3').textContent.toLowerCase();
+                const type = info.querySelector('p:nth-child(2)').textContent.toLowerCase();
+                const surface = info.querySelector('p:nth-child(3)').textContent.toLowerCase();
+                const medium = info.querySelector('p:nth-child(4)').textContent.toLowerCase();
+
+                
+                const matchesSearch = title.includes(searchQuery);
+                const matchesType = !typeFilter || type.includes(typeFilter);
+                const matchesSurface = !surfaceFilter || surface.includes(surfaceFilter);
+                const matchesColor = !colorFilter || medium.includes(colorFilter);
+
+                
+                if (matchesSearch && matchesType && matchesSurface && matchesColor) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    }
+
+    
+    document.addEventListener('DOMContentLoaded', handleSearchAndFilter);
+
+      
+      let cart = [];
+        let isCartOpen = false;
+
+        
+        document.querySelectorAll('.painting-card').forEach(card => {
+            const addButton = document.createElement('button');
+            addButton.textContent = 'Add to Cart';
+            addButton.style.cssText = 'width: 100%; padding: 10px; background: #333; color: white; border: none; border-radius: 4px; margin-top: 10px; cursor: pointer;';
+            
+            addButton.onclick = function() {
+                const title = card.querySelector('h3').textContent;
+                const price = card.querySelector('.price').textContent;
+                const img = card.querySelector('img').src;
+                
+                addToCart({
+                    title: title,
+                    price: price,
+                    img: img
+                });
+            };
+            
+            card.querySelector('.painting-info').appendChild(addButton);
+        });
+
+        
+        function toggleCart() {
+            const cart = document.getElementById('cart-sidebar');
+            if (isCartOpen) {
+                cart.style.right = '-300px';
+            } else {
+                cart.style.right = '0';
+            }
+            isCartOpen = !isCartOpen;
+        }
+
+        
+        function addToCart(item) {
+            cart.push(item);
+            updateCartDisplay();
+            if (!isCartOpen) toggleCart();
+        }
+
+        
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                const priceNum = parseInt(item.price.replace(/[^0-9]/g, ''));
+                total += priceNum;
+
+                const itemElement = document.createElement('div');
+                itemElement.style.cssText = 'margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;';
+                itemElement.innerHTML = `
+                    <img src="${item.img}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+                    <div style="display: inline-block; vertical-align: top;">
+                        <div>${item.title}</div>
+                        <div>${item.price}</div>
+                    </div>
+                    <button onclick="removeFromCart(${index})" style="float: right; background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                        Remove
+                    </button>
+                `;
+                cartItems.appendChild(itemElement);
+            });
+
+            document.getElementById('cart-total').textContent = total.toLocaleString();
+        }
+
+        
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your Cart Is Empty!');
+                return;
+            }
+            alert('Your Order Is Placed!');
+            cart = [];
+            updateCartDisplay();
+            toggleCart();
+        }
+
+
+
+
+        const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+
+    
+    document.querySelectorAll('.nav-links li').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+        });
+    });
+</script>
+
+</body>
+</html>
